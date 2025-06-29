@@ -1,0 +1,25 @@
+conda create --name phd_yolo python=3.12 -y
+pip install -e .
+
+create custom folder of optimizer "custom_optim"
+add adamwtr.py
+
+in "\ultralytics\engine\trainer.py.bak"
+import sys
+sys.path.append("D:/phd_yolo/custom_optim/adamwtr.py")  # or wherever adamwtr.py lives
+from adamwtr import AdamWTR
+
+optimizers = {"AdamWTR", "Adam", "Adamax", "AdamW", "NAdam", "RAdam", "RMSProp", "SGD", "auto"}
+
+elif name == "AdamWTR" or name == "AdamWTrustRegion":
+	optimizer = AdamWTR(
+		g[2],
+		lr=lr,
+		betas=(momentum, 0.999),
+		weight_decay=0.0,
+		alpha=getattr(self.args, "alpha", 0.01),
+		gamma_clip=getattr(self.args, "gamma_clip", (0.1, 10.0)),
+		decay_rate=getattr(self.args, "decay_rate", 0.98),
+		decay_steps=getattr(self.args, "decay_steps", 100)
+	)
+	LOGGER.info(f"Using AdamWTrustRegion with alpha={self.args.alpha}, gamma_clip={self.args.gamma_clip}, etc.")
